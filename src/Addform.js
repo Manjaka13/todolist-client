@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "./styles/Addform.scss";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faCaretRight} from "@fortawesome/free-solid-svg-icons";
+import config from "./config";
 
 function Addform(props) {
 	const opened = props.opened || false;
@@ -13,9 +14,24 @@ function Addform(props) {
 	};
 	const submit = () => {
 		if(opened && todoname.length > 2) {
-			console.log("Submit: " + todoname);
-			if(typeof(props.finished) == "function")
-				props.finished();
+			fetch(config.target, {
+		        method: "PUT",
+		        headers: {
+		       		"Content-Type": "application/json"
+		        },
+		        body: JSON.stringify({
+		        	task: todoname,
+		        	date: props.date
+		        })
+			}).then(response => {
+		        return response.json();
+			}).then(data => {
+				console.log(data);
+				if(typeof(props.finished) == "function")
+					props.finished();
+			}).catch(e => {
+				console.error(e.message);
+			});
 		}
 		set_todoname(() => "");
 	};

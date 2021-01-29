@@ -4,6 +4,7 @@ import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 import Addform from "./Addform";
 import Todoitem from "./Todoitem";
+import config from "./config";
 
 class Todolist extends Component {
 	constructor(props) {
@@ -13,8 +14,6 @@ class Todolist extends Component {
 			todos: [],
 			current_date: this.today()
 		};
-		this.url = "http://localhost";
-		this.port = "3300";
 		this.date_change = this.date_change.bind(this);
 		this.open_addform = this.open_addform.bind(this);
 		this.close_addform = this.close_addform.bind(this);
@@ -59,8 +58,7 @@ class Todolist extends Component {
 	}
 
 	get_todos(date) {
-		const target = (this.url + (this.port ? (":" + this.port) : "")) + "/api/v1/";
-		fetch(target, {
+		fetch(config.target, {
 	        method: "POST",
 	        headers: {
 	       		"Content-Type": "application/json"
@@ -96,6 +94,25 @@ class Todolist extends Component {
 		}
 	}
 
+	delete_todo(id) {
+		if(id && id >= 0) {
+			fetch(config.target, {
+		        method: "DELETE",
+		        headers: {
+		       		"Content-Type": "application/json"
+		        },
+		        body: JSON.stringify({id: id})
+			}).then(response => {
+		        return response.json();
+			}).then(data => {
+				this.get_todos(this.state.current_date);
+				console.log(data);
+			}).catch(e => {
+				console.error(e.message);
+			});
+		}
+	}
+
 	render() {
 		const mapped_todoitems = this.state.todos.map((todo, n) => {
 			return (
@@ -106,6 +123,8 @@ class Todolist extends Component {
 					changed={(change) => {
 						if(change == "click")
 							this.toggle_todo(todo.id);
+						else
+							this.delete_todo(todo.id);
 					}}
 				/>
 			);
@@ -127,7 +146,14 @@ class Todolist extends Component {
 							<Icon className="icon" icon={faPlusCircle} /> Add new todo
 						</p>
 					</div>
-					<Addform opened={this.state.addform_opened} finished={this.close_addform} />
+					<Addform
+						date={this.state.current_date}
+						opened={this.state.addform_opened}
+						finished={() => {
+							this.get_todos(this.state.current_date);
+							this.close_addform();
+						}}
+					/>
 
 					{mapped_todoitems}
 
