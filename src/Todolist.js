@@ -94,10 +94,6 @@ class Todolist extends Component {
 					        	id: id,
 					        	done: t.done
 					        })
-						}).then(response => {
-					        return response.json();
-						}).then(data => {
-							console.log(data);
 						}).catch(e => {
 							console.error(e.message);
 						});
@@ -120,10 +116,7 @@ class Todolist extends Component {
 		        },
 		        body: JSON.stringify({id: id})
 			}).then(response => {
-		        return response.json();
-			}).then(data => {
 				this.get_todos(this.state.current_date);
-				console.log(data);
 			}).catch(e => {
 				console.error(e.message);
 			});

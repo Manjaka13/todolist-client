@@ -45,6 +45,15 @@
 			background: black;
 			box-shadow: 0px 0px 20px black;
 		}
+		.loading {
+			display: inline;
+			margin-left: 10px;
+			position: relative;
+			top: 3px;
+		}
+		.loading-hidden {
+			display: none;
+		}
 	}
 }
 
