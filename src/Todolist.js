@@ -83,8 +83,25 @@ class Todolist extends Component {
 		if(id >= 0) {
 			this.setState(prev_state => {
 				const new_todos = prev_state.todos.map(t => {
-					if(t.id == id)
+					if(t.id == id) {
 						t.done = t.done == 1 ? 0 : 1;
+						fetch(config.target, {
+					        method: "PATCH",
+					        headers: {
+					       		"Content-Type": "application/json"
+					        },
+					        body: JSON.stringify({
+					        	id: id,
+					        	done: t.done
+					        })
+						}).then(response => {
+					        return response.json();
+						}).then(data => {
+							console.log(data);
+						}).catch(e => {
+							console.error(e.message);
+						});
+					}
 					return t;
 				});
 				return {
