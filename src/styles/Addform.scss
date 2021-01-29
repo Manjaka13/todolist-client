@@ -1,0 +1,55 @@
+@import "./vars";
+
+.td-addform {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: auto;
+	background: rgb(80, 80, 80);
+	padding-top: 20px;
+	padding-bottom: 20px;
+	overflow: hidden;
+	transition: all 0.4s ease-in-out;
+	.input {
+		display: inline-block;
+		width: 60%;
+		padding: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border: none;
+		background: rgb(60, 60, 60);
+		color: white;
+		transition: all 0.2s ease-in-out;
+		&:hover {
+			background: rgb(50, 50, 50);
+			box-shadow: 0px 0px 10px black;
+		}
+		&:hover {
+			box-shadow: 0px 0px 5px black;
+		}
+	}
+	.submit {
+		background: rgb(40, 40, 40);
+		color: white;
+		padding: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		border: none;
+		transition: all 0.2s ease-in-out;
+		cursor: pointer;
+		&:hover {
+			background: rgb(20, 20, 20);
+			box-shadow: 0px 0px 5px black;
+		}
+		&:active {
+			background: black;
+			box-shadow: 0px 0px 20px black;
+		}
+	}
+}
+
+.td-addform-closed {
+	height: 0;
+	transition: all 0.4s ease-in-out;
+	padding: 0;
+}
