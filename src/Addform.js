@@ -19,6 +19,8 @@ function Addform(props) {
 		}
 		set_todoname(() => "");
 	};
+	if(!opened && todoname.length > 0)
+		set_todoname(() => "");
 
 	return (
 		<div className={addform_className}>
