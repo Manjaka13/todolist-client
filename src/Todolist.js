@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./styles/Todolist.scss";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
+import {faPlusCircle, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import Addform from "./Addform";
 
 class Todolist extends Component {
@@ -38,12 +38,26 @@ class Todolist extends Component {
 					<div className="head">
 						<p className="day">Day: </p>
 						<input className="date" type="date" value="2021-01-29" onChange={this.date_change} />
-						<p className="add" onClick={this.open_addform}>
+						<p
+							className="add"
+							onClick={() => {
+								if(this.state.addform_opened) this.close_addform();
+								else this.open_addform();
+							}}
+						>
 							<Icon className="icon" icon={faPlusCircle} /> Add new todo
 						</p>
 					</div>
 					<Addform opened={this.state.addform_opened} finished={this.close_addform} />
-					<p>Culpa exercitation ullamco anim irure enim ut ad dolore dolor duis dolor minim esse aliqua est voluptate aliqua aute.</p>
+
+					<div className="todo-item">
+						<div className="check">
+							<div className="box"></div>
+						</div>
+						<p className="text">Go wash the car !</p>
+						<Icon className="delete" icon={faTrashAlt} />
+					</div>
+
 				</div>
 			</div>
 		);
