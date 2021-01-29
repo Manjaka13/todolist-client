@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import "./styles/Todolist.scss";
 import {FontAwesomeIcon as Icon} from "@fortawesome/react-fontawesome";
-import {faPlusCircle, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 import Addform from "./Addform";
+import Todoitem from "./Todoitem";
 
 class Todolist extends Component {
 	constructor(props) {
@@ -50,13 +51,13 @@ class Todolist extends Component {
 					</div>
 					<Addform opened={this.state.addform_opened} finished={this.close_addform} />
 
-					<div className="todo-item">
-						<div className="check">
-							<div className="box"></div>
-						</div>
-						<p className="text">Go wash the car !</p>
-						<Icon className="delete" icon={faTrashAlt} />
-					</div>
+					<Todoitem
+						checked={false}
+						content="Go to the piano concert with Dave"
+						changed={(change) => {
+							console.log(change);
+						}}
+					/>
 
 				</div>
 			</div>
