@@ -14,7 +14,7 @@ function Navigation() {
 		{
 			title: "Contribute this game's repository",
 			icon: faGithub,
-			link: "https://github.com/Manjaka13/rps-game"
+			link: "https://github.com/Manjaka13/todolist-client"
 		},
 		{
 			title: "Visit my LinkedIn page",
