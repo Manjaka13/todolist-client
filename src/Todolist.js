@@ -10,7 +10,8 @@ class Todolist extends Component {
 		super();
 		this.state = {
 			addform_opened: false,
-			todos: []
+			todos: [],
+			current_date: this.today()
 		};
 		this.url = "http://localhost";
 		this.port = "3300";
@@ -20,8 +21,20 @@ class Todolist extends Component {
 		this.toggle_todo = this.toggle_todo.bind(this);
 	}
 
-	date_change(e) {
+	today() {
+		const d = new Date();
+		const y = d.getFullYear();
+		let m = (d.getMonth() + 1);
+		m = m < 10 ? "0" + m : m;
+		return y + "-" + m + "-" + d.getDate();
+	}
 
+	date_change(e) {
+		const date = e.target.value;
+		this.setState({
+			current_date: date
+		});
+		this.get_todos(date);
 	}
 	
 	open_addform() {
@@ -36,23 +49,36 @@ class Todolist extends Component {
 		});
 	}
 
-	componentDidMount() {
+	thisdate_todos(todos, date) {
+		let thisdate = [];
+		todos.forEach(t => {
+			if(t._date == date)
+				thisdate.push(t);
+		});
+		return thisdate;
+	}
+
+	get_todos(date) {
 		const target = (this.url + (this.port ? (":" + this.port) : "")) + "/api/v1/";
 		fetch(target, {
-	        method: "GET",
+	        method: "POST",
 	        headers: {
 	       		"Content-Type": "application/json"
-	        }
+	        },
+	        body: date ? JSON.stringify({date: date}) : undefined
 		}).then(response => {
 	        return response.json();
 		}).then(data => {
-			const retrieved_todos = data.response;
 			this.setState({
-				todos: retrieved_todos
+				todos: this.thisdate_todos(data.response, this.state.current_date)
 			});
 		}).catch(e => {
 			console.error(e.message);
 		});
+	}
+
+	componentDidMount() {
+		this.get_todos(this.state.current_date);
 	}
 
 	toggle_todo(id) {
@@ -80,7 +106,6 @@ class Todolist extends Component {
 					changed={(change) => {
 						if(change == "click")
 							this.toggle_todo(todo.id);
-						//console.log(change);
 					}}
 				/>
 			);
@@ -91,7 +116,7 @@ class Todolist extends Component {
 				<div className="container">
 					<div className="head">
 						<p className="day">Day: </p>
-						<input className="date" type="date" value="2021-01-29" onChange={this.date_change} />
+						<input className="date" type="date" value={this.state.current_date} onChange={this.date_change} />
 						<p
 							className="add"
 							onClick={() => {
