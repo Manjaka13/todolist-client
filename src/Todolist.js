@@ -25,7 +25,9 @@ class Todolist extends Component {
 		const y = d.getFullYear();
 		let m = (d.getMonth() + 1);
 		m = m < 10 ? "0" + m : m;
-		return y + "-" + m + "-" + d.getDate();
+		let day = d.getDate();
+		day = day < 10 ? ("0" + day) : day;
+		return y + "-" + m + "-" + day;
 	}
 
 	date_change(e) {
